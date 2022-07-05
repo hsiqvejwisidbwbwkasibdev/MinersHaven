@@ -400,7 +400,9 @@ _G.neworeTime = workspace.DroppedParts[baseNum].ChildAdded:Connect(function(ore)
 end)
 
 oretime.MouseButton1Click:Connect(function()
+    local numores = #all_times
     all_times = {}
+    mh:Notify('Success!', 'Average Time Was Reset After ' .. numores .. ' Ores!')
 end)
 
 ImageButton.MouseButton1Click:Connect(function()
