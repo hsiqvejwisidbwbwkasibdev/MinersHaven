@@ -1,4 +1,4 @@
-print('newvertime')
+print('newvertime2')
 --[[
 function stringtocolor(str)
     return Color3.fromRGB(table.unpack(str:gsub(" ",""):split(",")))
@@ -69,7 +69,7 @@ local UICorner_8 = Instance.new("UICorner")
 local TextLabel_4 = Instance.new("TextLabel")
 local UITextSizeConstraint_4 = Instance.new("UITextSizeConstraint")
 local UICorner_9 = Instance.new("UICorner")
-local oretime = Instance.new("TextLabel")
+local oretime = Instance.new("TextButton")
 local UICorner_10 = Instance.new("UICorner")
 local UITextSizeConstraint_5 = Instance.new("UITextSizeConstraint")
 local backtimeore = Instance.new("TextButton")
@@ -240,6 +240,7 @@ oretime.TextColor3 = stringtocolor(SettingsT.TextColor)
 oretime.TextScaled = true
 oretime.TextSize = 14.000
 oretime.TextWrapped = true
+oretime.AutoButtonColor = false
 
 UICorner_10.CornerRadius = UDim.new(0, 5)
 UICorner_10.Parent = oretime
@@ -265,6 +266,16 @@ end)
 
 backtimeore.MouseLeave:Connect(function()
     local tweentrans = TweenService:Create(backtimeore, TweenInfo.new(0.5), {BackgroundTransparency = 0, TextTransparency = 0})
+    tweentrans:Play()
+end)
+
+oretime.MouseEnter:Connect(function()
+    local tweentrans = TweenService:Create(oretime, TweenInfo.new(0.5), {BackgroundTransparency = 0.3, TextTransparency = 0.3})
+    tweentrans:Play()
+end)
+
+oretime.MouseLeave:Connect(function()
+    local tweentrans = TweenService:Create(oretime, TweenInfo.new(0.5), {BackgroundTransparency = 0, TextTransparency = 0})
     tweentrans:Play()
 end)
 
@@ -371,7 +382,14 @@ _G.neworeTime = workspace.DroppedParts[baseNum].ChildAdded:Connect(function(ore)
                         for _, time in pairs(all_times) do
                             timesum = timesum + time
                         end
-                        oretime.Text = 'Time In Between: ' .. time .. ' Seconds (' .. timesum / #all_times .. ')'
+                        local avgtime = timesum / #all_times
+                        avgtime = avgtime * 10000
+                        avgtime = math.round(avgtime)
+                        avgtime = avgtime / 10000
+                        if #all_times == 0 then
+                            avgtime = 'N/A'
+                        end
+                        oretime.Text = 'Time In Between: ' .. time .. ' Seconds (Avg: ' .. avgtime .. ')'
                     end
                 end
             end
@@ -379,6 +397,10 @@ _G.neworeTime = workspace.DroppedParts[baseNum].ChildAdded:Connect(function(ore)
     else 
         oretime.Text = 'Please Select Both Items'
     end
+end)
+
+oretime.MouseButton1Click:Connect(function()
+    all_times = {}
 end)
 
 ImageButton.MouseButton1Click:Connect(function()
