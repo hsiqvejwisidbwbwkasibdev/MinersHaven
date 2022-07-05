@@ -350,6 +350,7 @@ _G.removeditemTime = myBase.ChildRemoved:Connect(function(child)
         end
     end
 end)
+local all_times = {}
 _G.neworeTime = workspace.DroppedParts[baseNum].ChildAdded:Connect(function(ore)
     if FirstItem ~= nil and SecondItem ~= nil then
         local starttick;
@@ -365,7 +366,12 @@ _G.neworeTime = workspace.DroppedParts[baseNum].ChildAdded:Connect(function(ore)
                         time = time * 10000
                         time = math.round(time)
                         time = time / 10000
-                        oretime.Text = 'Time In Between: ' .. time .. ' Seconds (' .. ore.Name .. ')'
+                        table.insert(all_times, time)
+                        local timesum = 0
+                        for _, time in pairs(all_times) do
+                            timesum = timesum + time
+                        end
+                        oretime.Text = 'Time In Between: ' .. time .. ' Seconds (' .. timesum / #all_times .. ')'
                     end
                 end
             end
